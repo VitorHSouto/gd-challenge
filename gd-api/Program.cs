@@ -1,5 +1,7 @@
 
 using FluentMigrator.Runner;
+using gd_api.Domain.Repositories;
+using gd_api.Domain.Services;
 using gd_api.Domain.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +31,18 @@ namespace gd_api
                 UpdateDatabase(scope.ServiceProvider);
             }
 
+            AddServices(builder);
             builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,12 +53,10 @@ namespace gd_api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
-
+            app.UseCors();
             app.MapControllers();
-
             app.Run();
         }
         private static IServiceProvider CreateServices()
@@ -64,6 +75,13 @@ namespace gd_api
         {
             var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
             runner.MigrateUp();
+        }
+
+        //TODO: Remover declaração de serviços
+        private static void AddServices(WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<UserRepository>();
         }
     }
 }
