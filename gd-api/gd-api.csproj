@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentMigrator" Version="5.0.0" />
     <PackageReference Include="FluentMigrator.Runner" Version="5.0.0" />
     <PackageReference Include="FluentMigrator.Runner.Postgres" Version="5.0.0" />
