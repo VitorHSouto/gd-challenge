@@ -1,22 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace gd_api.Domain.Entities
+namespace gd_api.Domain.Dtos.Address
 {
-    public class AddressEntity : EntityBase
+    public class AddressDTO
     {
-        [Column("street")]
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public bool Active { get; set; }
         public string Street { get; set; }
-
-        [Column("number")]
         public string Number { get; set; }
-
-        [Column("city")]
         public string? City { get; set; }
-
-        [Column("state")]
         public string? State { get; set; }
-
-        [Column("zipcode")]
         public string? ZipCode { get; set; }
     }
 }

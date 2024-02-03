@@ -1,4 +1,5 @@
-﻿using gd_api.Domain.Dtos.User;
+﻿using gd_api.Domain.Dtos.Company;
+using gd_api.Domain.Dtos.User;
 using gd_api.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,11 +12,17 @@ namespace gd_api.Controllers
     [ApiController]
     public class CompanyController
     {
+        private readonly CompanyService _companyService;
+        public CompanyController(CompanyService companyService)
+        {
+            _companyService = companyService;
+        }
+
         [HttpGet("")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public string Get()
+        public async Task<List<CompanyDTO>> ListAll()
         {
-            return "ok";
+            return await _companyService.ListAll();
         }
     }
 }

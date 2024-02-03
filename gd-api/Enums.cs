@@ -1,0 +1,4 @@
+﻿namespace gd_api
+{
+
+}

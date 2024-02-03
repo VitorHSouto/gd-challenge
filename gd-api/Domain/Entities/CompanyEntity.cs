@@ -13,7 +13,7 @@ namespace gd_api.Domain.Entities
         [Column("phone")]
         public string Phone { get; set; }
 
-        [Column("addressId")]
+        [Column("addressid")]
         public Guid AddressId { get; set; }
     }
 }
