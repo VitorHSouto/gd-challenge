@@ -20,9 +20,9 @@ namespace gd_api.Controllers
 
         [HttpGet("")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<List<CompanyDTO>> ListAll()
+        public async Task<List<CompanyDTO>> ListAll([FromQuery] CompanyFilterDTO filter)
         {
-            return await _companyService.ListAll();
+            return await _companyService.ListAll(filter);
         }
     }
 }
