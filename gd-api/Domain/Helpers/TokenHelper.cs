@@ -3,17 +3,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
-namespace gd_api.Domain.Services
+namespace gd_api.Domain.Helpers
 {
-    public class JwtService
+    public class TokenHelper
     {
-        public JwtService() { }
+        private static readonly string Key = Context.JwtSecret;
 
-        private readonly string Key = Context.JwtSecret;
-
-        public string GenerateToken(string email)
+        public static string GenerateToken(string email)
         {
             var secret = Encoding.ASCII.GetBytes(Key);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -26,6 +25,15 @@ namespace gd_api.Domain.Services
             var handler = new JwtSecurityTokenHandler();
             var token = handler.CreateToken(tokenDescriptor);
             return handler.WriteToken(token);
+        }
+
+        public static string EncodeString(string value)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(value));
+                return Convert.ToBase64String(hashedBytes);
+            }
         }
     }
 }

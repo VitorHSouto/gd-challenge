@@ -1,5 +1,6 @@
 ﻿using gd_api.Domain.Dtos.User;
 using gd_api.Domain.Entities;
+using gd_api.Domain.Helpers;
 using gd_api.Domain.Repositories;
 
 namespace gd_api.Domain.Services
@@ -7,14 +8,11 @@ namespace gd_api.Domain.Services
     public class UserService
     {
         private UserRepository _userRepository;
-        private JwtService _jwtService;
         public UserService(
-            UserRepository userRepository,
-            JwtService jwtService
+            UserRepository userRepository
         )
         {
             _userRepository = userRepository;
-            _jwtService = jwtService;   
         }
 
         public async Task<List<UserDTO>> ListAll()
@@ -36,13 +34,20 @@ namespace gd_api.Domain.Services
         {
             var entity = new UserEntity();
             entity.Email = req.Email;
-            entity.Password = req.Password; //TODO: Adicionar hash
+            entity.Password = TokenHelper.EncodeString(req.Password);
 
             await _userRepository.Save(entity);
-            var dto = ToDTO(entity);
-            dto.Token = _jwtService.GenerateToken(entity.Email);
+            return ToDTO(entity);
+        }
 
-            return dto;
+        public async Task<UserDTO> GetByLogin(string email, string password)
+        {
+            var encodedPassword = TokenHelper.EncodeString(password);
+            var entity = await _userRepository.GetByLogin(email, encodedPassword);
+            if (entity == null)
+                throw new Exception("E-mail ou senha inválido.");
+
+            return ToDTO(entity);
         }
 
         private UserDTO ToDTO(UserEntity entity)

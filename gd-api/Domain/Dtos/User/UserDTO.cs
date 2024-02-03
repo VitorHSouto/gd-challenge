@@ -9,6 +9,5 @@ namespace gd_api.Domain.Dtos.User
         public DateTime UpdatedAt { get; set; }
         public bool Active { get; set; }
         public string Email { get; set; }
-        public string Token { get; set; }
     }
 }

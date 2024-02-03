@@ -1,4 +1,5 @@
-﻿using gd_api.Domain.Entities;
+﻿using Dapper;
+using gd_api.Domain.Entities;
 using gd_api.Domain.Settings;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -11,11 +12,13 @@ namespace gd_api.Domain.Repositories
     {
         public readonly ApplicationDbContext _dbContext;
         public DbSet<T> table;
+        protected String _tableName;
 
         public RepositoryBase(ApplicationDbContext dbContext, string tableName)
         {
             _dbContext = dbContext;
             table = _dbContext.Set<T>();
+            _tableName = tableName;
         }
 
         public async Task<bool> Delete(Guid id)
@@ -51,6 +54,15 @@ namespace gd_api.Domain.Repositories
         public async Task<T> Update(T entity)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<T?> QueryFirstOrDefaultAsync(string query, object parameters = null)
+        {
+            using (var connection = new NpgsqlConnection(_dbContext.Database.GetConnectionString()))
+            {
+                connection.Open();
+                return await connection.QueryFirstOrDefaultAsync<T>(query, parameters);
+            }
         }
     }
 }

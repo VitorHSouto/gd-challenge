@@ -1,5 +1,7 @@
 
 using FluentMigrator.Runner;
+using gd_api.Controllers;
+using gd_api.Domain.Helpers;
 using gd_api.Domain.Repositories;
 using gd_api.Domain.Services;
 using gd_api.Domain.Settings;
@@ -83,7 +85,8 @@ namespace gd_api
         //TODO: Remover declaração de serviços
         private static void AddServices(WebApplicationBuilder builder)
         {
-            builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<LoginController>();
+            builder.Services.AddScoped<LoginService>();
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<UserRepository>();
