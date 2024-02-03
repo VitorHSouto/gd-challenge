@@ -7,9 +7,14 @@ namespace gd_api.Domain.Services
     public class UserService
     {
         private UserRepository _userRepository;
-        public UserService(UserRepository userRepository)
+        private JwtService _jwtService;
+        public UserService(
+            UserRepository userRepository,
+            JwtService jwtService
+        )
         {
             _userRepository = userRepository;
+            _jwtService = jwtService;   
         }
 
         public async Task<List<UserDTO>> ListAll()
@@ -31,10 +36,13 @@ namespace gd_api.Domain.Services
         {
             var entity = new UserEntity();
             entity.Email = req.Email;
-            entity.Password = req.Password;
+            entity.Password = req.Password; //TODO: Adicionar hash
 
             await _userRepository.Save(entity);
-            return ToDTO(entity);
+            var dto = ToDTO(entity);
+            dto.Token = _jwtService.GenerateToken(entity.Email);
+
+            return dto;
         }
 
         private UserDTO ToDTO(UserEntity entity)
@@ -45,7 +53,6 @@ namespace gd_api.Domain.Services
             dto.UpdatedAt = entity.UpdatedAt;
             dto.Email = entity.Email;
             dto.Active = entity.Active;
-            dto.Token = "";
             return dto;
         }
     }

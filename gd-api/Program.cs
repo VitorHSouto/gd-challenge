@@ -3,8 +3,11 @@ using FluentMigrator.Runner;
 using gd_api.Domain.Repositories;
 using gd_api.Domain.Services;
 using gd_api.Domain.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace gd_api
 {
@@ -24,8 +27,8 @@ namespace gd_api
             var connection = builder.Configuration.GetConnectionString("DataBase");
             builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseNpgsql(connection));
 
+            ConfigureJWTAuthentication(builder);
             var serviceProvider = CreateServices();
-            // Init FluentMigrator
             using (var scope = serviceProvider.CreateScope())
             {
                 UpdateDatabase(scope.ServiceProvider);
@@ -80,8 +83,31 @@ namespace gd_api
         //TODO: Remover declaração de serviços
         private static void AddServices(WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<JwtService>();
+
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<UserRepository>();
+        }
+
+        private static void ConfigureJWTAuthentication(WebApplicationBuilder builder)
+        {
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Context.JwtSecret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
         }
     }
 }
