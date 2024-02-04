@@ -22,8 +22,6 @@ export class CompanyService {
 
   private readonly _notes: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
 
-  private alreadyLoaded: boolean = false;
-
   list(searchText?: string, details?: CompanyIncludeDetails[]): Observable<Company[]>{
     const params = new HttpParams({
       fromObject: {
