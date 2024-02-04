@@ -8,7 +8,7 @@ module.exports = {
   ],
   theme: {
     colors: {
-      primary: colors.indigo,
+      primary: colors.rose,
       'default': {
         50: '#f9fcff',
         100: '#f0f5f9',

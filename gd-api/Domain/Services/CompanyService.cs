@@ -24,7 +24,7 @@ namespace gd_api.Domain.Services
 
         public async Task<List<CompanyDTO>> ListAll(CompanyFilterDTO filter)
         {
-            var entities = await _companyRepository.ListAll();
+            var entities = await _companyRepository.Filter(filter.searchText);
             return await ToDTO(entities, filter.includeDetails);
         }
 

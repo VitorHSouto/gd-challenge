@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './login.component';
 import { signInRoutes } from './login.routing';
 
@@ -13,6 +14,7 @@ import { signInRoutes } from './login.routing';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

@@ -1,27 +1,35 @@
 <div class="flex items-center justify-center md:justify-between bg-default-50 md:bg-default-100 h-full">
-  <div class="p-8 md:w-1/2">
-    <div class="bg-default-50 p-8 rounded md:shadow max-w-96">
-      <h2 class="text-2xl font-semibold mb-4">Seja bem vindo</h2>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div class="flex justify-center items-center p-8 md:w-5/12">
+    <div class="max-w-xs">
+      <h2 class="text-3xl font-bold mb-2">Bem vindo!</h2>
+      <span class="text-gray-400 text-md">Informe seu e-mail e senha para entrar</span>
+      <form class="mt-12" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   
-        <mat-form-field class="mb-4 w-full" appearance="fill">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email">
-        </mat-form-field>
+        <div class="flex flex-col gap-1">
+          <span class="font-semibold text-xs">E-mail</span>
+          <mat-form-field class="w-full" appearance="outline">
+            <input matInput formControlName="email" type="email" required>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <span class="font-semibold text-xs">Senha</span>
+          <mat-form-field class="w-full" appearance="outline">
+            <input matInput formControlName="password" type="password" required>
+          </mat-form-field>
+        </div>
   
-        <mat-form-field class="mb-4 w-full" appearance="fill">
-          <mat-label>Senha</mat-label>
-          <input matInput formControlName="password" type="password">
-        </mat-form-field>
-  
-        <div class="flex items-center justify-between">
-          <a href="#" class="text-sm text-primary-500 hover:underline">Esqueceu a senha?</a>
+        <h-button [buttonClass]="'w-full'" [text]="'Entrar'"></h-button>
+
+        <div class="text-gray-500 text-sm mt-8 text-center">
+          É novo por aqui?
+          <a class="text-red-500 font-semibold hover:underline cursor-pointer">Crie uma conta</a>
         </div>
       </form>
     </div>
   </div>
 
-  <div class="gradient-background hidden md:block h-full w-1/2">
-    Teste
+  <div class="gradient-background hidden md:block h-full w-7/12">
+    <img class="object-cover h-full w-full " src="/assets/images/login-page.jpg">
   </div>
 </div>
