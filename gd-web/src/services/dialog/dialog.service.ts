@@ -10,7 +10,7 @@ import { DialogComponent } from 'src/main/shared/dialog/dialog.component';
 export class DialogService {
   constructor(private dialog: MatDialog) {}
 
-  openPopup(title: string, message: string, cancelText: string): Observable<any> {
+  openPopup(title: string, message: string, cancelText: string = 'Cancelar'): Observable<any> {
     return this.dialog.open(DialogComponent, {
       data: { title, message, cancelText },
     }).afterClosed();
