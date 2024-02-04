@@ -1,6 +1,7 @@
 ﻿using gd_api.Domain.Dtos.Address;
 using gd_api.Domain.Entities;
 using gd_api.Domain.Repositories;
+using gd_api.Domain.Settings;
 
 namespace gd_api.Domain.Services
 {
@@ -18,7 +19,7 @@ namespace gd_api.Domain.Services
         {
             var entity = await _addressRepository.GetById(id);
             if (entity == null)
-                throw new Exception("Endereço não encontrado");
+                throw new CustomException("Endereço não encontrado.", CustomExceptionError.NotFound);
 
             return ToDTO(entity);
         }

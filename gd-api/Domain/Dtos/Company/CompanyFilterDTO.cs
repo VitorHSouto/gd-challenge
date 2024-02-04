@@ -3,5 +3,6 @@
     public class CompanyFilterDTO
     {
         public CompanyIncludeDetails includeDetails { get; set; }
+        public string searchText { get; set; }
     }
 }
