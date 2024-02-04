@@ -1,0 +1,27 @@
+<div class="flex items-center justify-center md:justify-between bg-default-50 md:bg-default-100 h-full">
+  <div class="p-8 md:w-1/2">
+    <div class="bg-default-50 p-8 rounded md:shadow max-w-96">
+      <h2 class="text-2xl font-semibold mb-4">Seja bem vindo</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  
+        <mat-form-field class="mb-4 w-full" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email">
+        </mat-form-field>
+  
+        <mat-form-field class="mb-4 w-full" appearance="fill">
+          <mat-label>Senha</mat-label>
+          <input matInput formControlName="password" type="password">
+        </mat-form-field>
+  
+        <div class="flex items-center justify-between">
+          <a href="#" class="text-sm text-primary-500 hover:underline">Esqueceu a senha?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="gradient-background hidden md:block h-full w-1/2">
+    Teste
+  </div>
+</div>
