@@ -1,4 +1,5 @@
 ﻿using gd_api.Domain.Dtos.Company;
+using gd_api.Domain.Dtos.Product;
 using gd_api.Domain.Entities;
 using gd_api.Domain.Repositories;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -9,19 +10,27 @@ namespace gd_api.Domain.Services
     {
         private readonly CompanyRepository _companyRepository;
         private readonly AddressService _addressService;
+        private readonly ProductService _productService;
         public CompanyService(
             CompanyRepository companyRepository,
-            AddressService addressService
+            AddressService addressService,
+            ProductService productService
         )
         {
             _companyRepository = companyRepository;
             _addressService = addressService;
+            _productService = productService;
         }
 
         public async Task<List<CompanyDTO>> ListAll(CompanyFilterDTO filter)
         {
             var entities = await _companyRepository.ListAll();
             return await ToDTO(entities, filter.includeDetails);
+        }
+
+        public async Task<List<ProductDTO>> ListProducts(Guid id, ProductFilterDTO filter)
+        {
+            return await _productService.ListByCompanyId(id);
         }
 
         private async Task<List<CompanyDTO>> ToDTO(List<CompanyEntity> entities, CompanyIncludeDetails details = CompanyIncludeDetails.Undefined)

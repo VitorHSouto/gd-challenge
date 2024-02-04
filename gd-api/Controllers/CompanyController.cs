@@ -1,4 +1,5 @@
 ﻿using gd_api.Domain.Dtos.Company;
+using gd_api.Domain.Dtos.Product;
 using gd_api.Domain.Dtos.User;
 using gd_api.Domain.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,6 +24,13 @@ namespace gd_api.Controllers
         public async Task<List<CompanyDTO>> ListAll([FromQuery] CompanyFilterDTO filter)
         {
             return await _companyService.ListAll(filter);
+        }
+
+        [HttpGet("{id}/product")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<List<ProductDTO>> ListProducts(Guid id, [FromQuery] ProductFilterDTO filter)
+        {
+            return await _companyService.ListProducts(id, filter);
         }
     }
 }

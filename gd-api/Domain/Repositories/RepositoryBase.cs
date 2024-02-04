@@ -56,12 +56,19 @@ namespace gd_api.Domain.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<T?> QueryFirstOrDefaultAsync(string query, object parameters = null)
+        public async Task<T?> QueryFirstOrDefaultAsync(string query, object? parameters = null)
         {
             using (var connection = new NpgsqlConnection(_dbContext.Database.GetConnectionString()))
             {
-                connection.Open();
                 return await connection.QueryFirstOrDefaultAsync<T>(query, parameters);
+            }
+        }
+
+        public async Task<List<T>> QueryAsync(string query, object? parameters = null)
+        {
+            using (var connection = new NpgsqlConnection(_dbContext.Database.GetConnectionString()))
+            {
+                return (await connection.QueryAsync<T>(query, parameters)).ToList();
             }
         }
     }

@@ -96,6 +96,9 @@ namespace gd_api
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<UserRepository>();
+
+            builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<ProductRepository>();
         }
 
         private static void ConfigureJWTAuthentication(WebApplicationBuilder builder)

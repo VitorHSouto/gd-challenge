@@ -1,19 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace gd_api.Domain.Entities
+namespace gd_api.Domain.Dtos.Product
 {
-    public class ProductEntity : EntityBase
+    public class ProductDTO
     {
-        [Column("name")]
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public bool Active { get; set; }
         public string Name { get; set; }
-
-        [Column("description")]
         public string Description { get; set; }
-
-        [Column("price")]
         public decimal Price { get; set; }
-
-        [Column("companyid")]
         public Guid CompanyId { get; set; }
     }
 }
