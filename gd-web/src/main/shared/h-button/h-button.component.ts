@@ -11,6 +11,7 @@ export class HButtonComponent implements OnInit {
 
   @Input() text: string;
   @Input() buttonClass: string;
+  @Input() isBusy: boolean = false;
   @Input() isPrimary: boolean = true;
 
   @Output() onClick = new EventEmitter<boolean>();

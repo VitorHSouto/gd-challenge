@@ -1,7 +1,12 @@
 <button
-  mat-flat-button
+  mat-flat-button [disabled]="isBusy"
   color="primary"
   [class]="'h-button px-8 py-2 text-white ' + buttonClass"
-  (click)="onClickEvent()" >
-    {{ text }}
+  (click)="onClickEvent()">
+    <div class="flex items-center justify-center gap-2">
+      <ng-container *ngIf="isBusy">
+        <mat-spinner strokeWidth="2" [diameter]="18"></mat-spinner>
+      </ng-container>
+      {{ text }}
+    </div>
 </button>

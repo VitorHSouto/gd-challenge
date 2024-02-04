@@ -1,0 +1,13 @@
+<div class="bg-white rounded-xl">
+    <div class="p-6">
+        <h2 class="text-lg font-semibold mb-3">{{ data.title }}</h2>
+        <p class="text-gray-600 text-md">{{ data.message }}</p>
+    </div>
+    
+    <div class="flex justify-end border-t px-6 py-3">
+        <h-button 
+            (onClick)="close()"
+            [text]="data.cancelText">
+        </h-button>
+    </div>
+</div>

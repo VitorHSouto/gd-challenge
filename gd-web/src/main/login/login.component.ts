@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Validators } from 'ngx-editor';
 import { Subject, takeUntil } from 'rxjs';
 import { ContextService } from 'src/services/context/context';
 import { LoginService } from 'src/services/login/login.service';
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private initForm(): void{
     this.loginForm = this._formBuilder.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.email]],
       password: ['', Validators.required]
     });
   }
