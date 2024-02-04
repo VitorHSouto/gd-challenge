@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../user/user.types';
+import { Router } from '@angular/router';
+import { AuthenticatedUser } from '../user/user.types';
 import { ContextSettings } from './context.types';
 
 @Injectable({
@@ -7,15 +8,37 @@ import { ContextSettings } from './context.types';
 })
 export class ContextService {
 
-  constructor() { }
+  constructor(
+    private readonly _router: Router
+  ) {
+    this.initializeContext();
+  }
 
+  private readonly acessContextKey = 'localStorageKey';
   context: ContextSettings;
 
-  public setContext(user: User): void{
+  public setContext(user: AuthenticatedUser): void{
     this.context = {
-        isAuthenticated: true,
-        user: user
+      isAuthenticated: true,
+      token: user.token,
+      user: user
     }
+
+    localStorage.setItem(this.acessContextKey, JSON.stringify(this.context));
+  }
+
+  private initializeContext(): void {
+    const storedContext = localStorage.getItem(this.acessContextKey);
+  
+    if (storedContext) {
+      this.context = JSON.parse(storedContext);
+    }
+  }
+
+  logout(): void{
+    this.context = {isAuthenticated: false};
+    localStorage.removeItem(this.acessContextKey);
+    this._router.navigateByUrl('login');
   }
 
 }

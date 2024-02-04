@@ -7,6 +7,16 @@ export interface User {
     email?: string
 }
 
+export interface AuthenticatedUser {
+    id?: string,
+    createdAt?: Date,
+    updatedAt?: Date,
+    active?: boolean,
+    token?: string,
+    userId?: string,
+    user?: User
+}
+
 export interface UserSaveRequest {
     name?: string,
     email?: string;

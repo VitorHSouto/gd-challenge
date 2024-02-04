@@ -9,6 +9,10 @@ export const routes: Route[] = [
         path: 'user',
         loadChildren:  () => import('../main/user/user.module').then(m => m.UserModule)
     },
+    {
+        path: 'company',
+        loadChildren:  () => import('../main/company/company.module').then(m => m.CompanyModule)
+    },
     { 
         path: '**', 
         redirectTo: 'login', 

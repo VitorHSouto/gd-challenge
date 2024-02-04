@@ -13,7 +13,7 @@ namespace gd_api.Domain.Repositories
         {
             var sql = "SELECT DISTINCT c.* FROM company c ";
 
-            if (string.IsNullOrEmpty(searchText))
+            if (!string.IsNullOrEmpty(searchText))
             {
                 var searchableText = $"LOWER('%{searchText}%')";
                 sql += @$"LEFT JOIN product p ON c.id = p.companyid

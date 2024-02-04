@@ -12,7 +12,7 @@ import { UserSaveRequest } from 'src/services/user/user.types';
 })
 export class UserComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  isBusy: boolean;
+  isBusy: boolean = false;
 
   constructor(
     private readonly _changeDetectorRef: ChangeDetectorRef,
@@ -35,7 +35,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.form.invalid)
-      return;
+      return this.showFormErrorMessage();
 
     const req: UserSaveRequest = {...this.form.value};
     this.isBusy = true;
@@ -61,6 +61,13 @@ export class UserComponent implements OnInit, OnDestroy {
       email: ['', [Validators.email]],
       password: ['', Validators.required]
     });
+  }
+
+  private showFormErrorMessage(){
+    this._dialogService.openPopup(
+      'Atenção', 
+      'Preencha todos os campos.'
+    )
   }
 
   private redirectToLoginPage(): void{

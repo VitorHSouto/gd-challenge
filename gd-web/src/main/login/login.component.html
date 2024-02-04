@@ -19,7 +19,11 @@
           </mat-form-field>
         </div>
   
-        <h-button [buttonClass]="'w-full'" [text]="'Entrar'"></h-button>
+        <h-button 
+          [isBusy]="isBusy"
+          [buttonClass]="'w-full'" 
+          [text]="'Entrar'">
+        </h-button>
 
         <div class="text-gray-500 text-sm mt-8 text-center">
           É novo por aqui?

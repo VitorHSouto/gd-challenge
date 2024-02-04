@@ -12,6 +12,7 @@ export class DialogService {
 
   openPopup(title: string, message: string, cancelText: string = 'Cancelar'): Observable<any> {
     return this.dialog.open(DialogComponent, {
+      minWidth: '30%',
       data: { title, message, cancelText },
     }).afterClosed();
   }
