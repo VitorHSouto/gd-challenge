@@ -1,7 +1,9 @@
 ﻿using gd_api.Domain.Dtos.Company;
 using gd_api.Domain.Dtos.Product;
+using gd_api.Domain.Dtos.User;
 using gd_api.Domain.Entities;
 using gd_api.Domain.Repositories;
+using gd_api.Domain.Settings;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace gd_api.Domain.Services
@@ -26,6 +28,15 @@ namespace gd_api.Domain.Services
         {
             var entities = await _companyRepository.Filter(filter.searchText);
             return await ToDTO(entities, filter.includeDetails);
+        }
+
+        public async Task<CompanyDTO> GetById(Guid id)
+        {
+            var entity = await _companyRepository.GetById(id);
+            if (entity == null)
+                throw new CustomException("Empresa não encontrada.", CustomExceptionError.NotFound);
+
+            return await ToDTO(entity, CompanyIncludeDetails.All);
         }
 
         public async Task<List<ProductDTO>> ListProducts(Guid id, ProductFilterDTO filter)

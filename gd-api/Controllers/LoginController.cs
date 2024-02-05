@@ -15,7 +15,7 @@ namespace gd_api.Controllers
             _loginService = loginService;
         }
 
-        [HttpPost]
+        [HttpPost("authenticate")]
         public async Task<AuthenticatedUserDTO> Authenticate(AuthenticateDTO req)
         {
             return await _loginService.Authenticate(req);

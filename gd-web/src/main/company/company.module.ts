@@ -8,12 +8,14 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CompanyComponent } from './company.component';
 import { signInRoutes } from './company.routing';
+import { CompanyDetailsComponent } from './details/details.component';
 import { CompanyListComponent } from './list/list.component';
 
 @NgModule({
   declarations: [
     CompanyComponent,
-    CompanyListComponent
+    CompanyListComponent,
+    CompanyDetailsComponent
   ],
   imports: [
     CommonModule,

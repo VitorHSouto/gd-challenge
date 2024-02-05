@@ -17,7 +17,7 @@ export class LoginService {
   readonly baseUrl: string = `${environment.apiUrl}/login`;
 
   login(req: LoginRequest): Observable<User>{
-    return this._httpClient.post<User>(this.baseUrl, req)
+    return this._httpClient.post<User>(`${this.baseUrl}/authenticate`, req)
       .pipe()
   }
 }

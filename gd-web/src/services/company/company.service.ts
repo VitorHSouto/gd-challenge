@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { Product } from '../product/product.types';
 import { Company, CompanyIncludeDetails } from './company.types';
 
 @Injectable({
@@ -34,5 +35,15 @@ export class CompanyService {
       .pipe(tap(notes => {  
         this._notes.next(notes)
     }))
+  }
+
+  getById(id: string): Observable<Company>{
+    return this._httpClient.get<Company>(`${this.baseUrl}/${id}`)
+      .pipe()
+  }
+
+  getProducts(id: string): Observable<Product[]>{
+    return this._httpClient.get<Product[]>(`${this.baseUrl}/${id}/product`)
+      .pipe()
   }
 }

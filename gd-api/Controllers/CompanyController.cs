@@ -26,6 +26,13 @@ namespace gd_api.Controllers
             return await _companyService.ListAll(filter);
         }
 
+        [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<CompanyDTO> GetById(Guid id)
+        {
+            return await _companyService.GetById(id);
+        }
+
         [HttpGet("{id}/product")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<List<ProductDTO>> ListProducts(Guid id, [FromQuery] ProductFilterDTO filter)

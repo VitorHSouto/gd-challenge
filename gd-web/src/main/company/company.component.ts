@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs';
 import { CompanyService } from 'src/services/company/company.service';
 import { ContextService } from 'src/services/context/context';
@@ -15,6 +16,7 @@ export class CompanyComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _router: Router,
     private readonly _contextService: ContextService,
     private readonly _companyService: CompanyService
   ) {}
@@ -29,6 +31,10 @@ export class CompanyComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._destroySubject.next(true);
     this._destroySubject.unsubscribe();
+  }
+
+  goToDefaultRoute(): void{
+    this._router.navigateByUrl('company');
   }
 
   logout(): void{

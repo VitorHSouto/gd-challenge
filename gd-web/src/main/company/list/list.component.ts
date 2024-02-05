@@ -30,6 +30,10 @@ export class CompanyListComponent implements OnInit {
     this._destroySubject.unsubscribe();
   }
 
+  open(id: String): void{
+    this._router.navigateByUrl(`company/${id}`);
+  }
+
   private subscribeToNotes(): void{
     this._companyService.notes$
     .pipe(takeUntil(this._destroySubject))
