@@ -1,5 +1,7 @@
-<div class="flex justify-center items-center h-1">
+<div class="relative flex justify-center items-center">
     <ng-container *ngIf="isToShow">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <div class="absolute top-0 z-50 w-full h-1 bg-default-50">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
     </ng-container>
 </div>

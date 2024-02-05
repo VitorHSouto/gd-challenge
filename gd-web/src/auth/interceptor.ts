@@ -6,6 +6,7 @@ import {
     HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { ContextService } from 'src/services/context/context';
@@ -17,6 +18,7 @@ export class Interceptor implements HttpInterceptor {
 
     constructor(
         private readonly _context: ContextService,
+        private readonly _router: Router,
         private readonly _dialogService: DialogService,
         private readonly _requestIndicatorService: RequestIndicatorService,
     ){}

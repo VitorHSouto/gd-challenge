@@ -13,9 +13,13 @@ export const routes: Route[] = [
         path: 'company',
         loadChildren:  () => import('../main/company/company.module').then(m => m.CompanyModule)
     },
+    {
+        path: 'not-found',
+        loadChildren:  () => import('../main/error/error.module').then(m => m.ErrorModule)
+    },
     { 
         path: '**', 
-        redirectTo: 'login', 
+        redirectTo: 'not-found', 
         pathMatch: 'full' 
     },
 ]  
