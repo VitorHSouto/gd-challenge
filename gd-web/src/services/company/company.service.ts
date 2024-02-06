@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environment/environment';
-import { Product } from '../product/product.types';
+import { Product, ProductIncludeDetails } from '../product/product.types';
 import { Company, CompanyIncludeDetails } from './company.types';
 
 @Injectable({
@@ -42,8 +42,14 @@ export class CompanyService {
       .pipe()
   }
 
-  getProducts(id: string): Observable<Product[]>{
-    return this._httpClient.get<Product[]>(`${this.baseUrl}/${id}/product`)
+  getProducts(id: string, details?: ProductIncludeDetails[]): Observable<Product[]>{
+    const params = new HttpParams({
+      fromObject: {
+        includeDetails: details?.join(', ') ?? `${ProductIncludeDetails.all}`
+      }
+    });
+
+    return this._httpClient.get<Product[]>(`${this.baseUrl}/${id}/product`, {params})
       .pipe()
   }
 }

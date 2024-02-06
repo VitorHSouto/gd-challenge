@@ -1,4 +1,5 @@
 import { Address } from "../address/address.types";
+import { InternalFile } from "../file/file.types";
 
 export interface Company {
   id?: string;
@@ -10,6 +11,10 @@ export interface Company {
   phone?: string;
   addressId?: string;
   address?: Address;
+  bannerFileId?: string;
+  logoFileId?: string;
+  bannerFile?: InternalFile;
+  logoFile?: InternalFile;
 }
 
 export interface CompanyFilterRequest {
@@ -20,5 +25,6 @@ export interface CompanyFilterRequest {
 export enum CompanyIncludeDetails{
   undefined = 'UNDEFINED',
   address = 'ADDRESS',
+  file = 'FILE',
   all = 'ALL'
 }

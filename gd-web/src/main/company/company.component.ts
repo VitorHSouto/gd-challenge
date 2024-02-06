@@ -46,6 +46,11 @@ export class CompanyComponent implements OnInit, OnDestroy {
     this._searchText.next(searchText);
   }
 
+  clearFilter(inputElement: any): void {
+    inputElement.value = '';
+    this._searchText.next(inputElement.value);
+  }
+
   private subscribeToTextChange(): void{
     this._searchText
       .pipe(

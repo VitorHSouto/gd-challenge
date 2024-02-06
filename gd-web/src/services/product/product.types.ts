@@ -1,3 +1,5 @@
+import { InternalFile } from "../file/file.types";
+
 export interface Product{
     id?: string;
     createdAt?: Date;
@@ -7,4 +9,12 @@ export interface Product{
     description?: string;
     price?: number;
     companyId?: string;
+    fileIds?: string;
+    files?: InternalFile[];
 }
+
+export enum ProductIncludeDetails{
+    undefined = 'UNDEFINED',
+    file = 'FILE',
+    all = 'ALL'
+  }

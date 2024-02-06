@@ -23,7 +23,7 @@ export class Interceptor implements HttpInterceptor {
         private readonly _requestIndicatorService: RequestIndicatorService,
     ){}
 
-    
+    private readonly unauthorizedErrorCode: number = 401;
     private readonly genericErrorMessage: String = 'Ocorreu um erro inesperado';
 
     intercept(request: HttpRequest<any>, handler: HttpHandler): Observable<HttpEvent<any>> {
@@ -33,6 +33,11 @@ export class Interceptor implements HttpInterceptor {
         return req.pipe(
             finalize(() => this._requestIndicatorService.setState(false)),
             catchError((error: HttpErrorResponse) => {
+                if(error.status == this.unauthorizedErrorCode){
+                    this._context.logout();
+                    return throwError(error);
+                }
+
                 const message = error.error?.ErrorMessage ?? this.genericErrorMessage;
                 this._dialogService.openPopup('Atenção!', message);
 

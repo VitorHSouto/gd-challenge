@@ -15,6 +15,7 @@
 $note-web-primary: mat.define-palette(mat.$red-palette, A400);
 $note-web-accent: mat.define-palette(mat.$red-palette, A200, A100, A400);
 
+
 // The warn palette is optional (defaults to red).
 $note-web-warn: mat.define-palette(mat.$red-palette);
 
@@ -32,6 +33,7 @@ $note-web-theme: mat.define-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($note-web-theme);
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 @tailwind base;
 @tailwind components;

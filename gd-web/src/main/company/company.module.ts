@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { SharedModule } from '../shared/shared.module';
 import { CompanyComponent } from './company.component';
 import { signInRoutes } from './company.routing';
@@ -23,6 +24,7 @@ import { CompanyListComponent } from './list/list.component';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    LazyLoadImageModule,
     ReactiveFormsModule,
     RouterModule.forChild(signInRoutes)
   ]
