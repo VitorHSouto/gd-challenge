@@ -13,15 +13,18 @@ namespace gd_api.Domain.Services
         private readonly CompanyRepository _companyRepository;
         private readonly AddressService _addressService;
         private readonly ProductService _productService;
+        private readonly FileService _fileService;
         public CompanyService(
             CompanyRepository companyRepository,
             AddressService addressService,
+            FileService fileService,
             ProductService productService
         )
         {
             _companyRepository = companyRepository;
             _addressService = addressService;
             _productService = productService;
+            _fileService = fileService;
         }
 
         public async Task<List<CompanyDTO>> ListAll(CompanyFilterDTO filter)
@@ -41,7 +44,7 @@ namespace gd_api.Domain.Services
 
         public async Task<List<ProductDTO>> ListProducts(Guid id, ProductFilterDTO filter)
         {
-            return await _productService.ListByCompanyId(id);
+            return await _productService.ListByCompanyId(id, filter.includeDetails);
         }
 
         private async Task<List<CompanyDTO>> ToDTO(List<CompanyEntity> entities, CompanyIncludeDetails details = CompanyIncludeDetails.Undefined)
@@ -65,10 +68,22 @@ namespace gd_api.Domain.Services
             dto.Description = entity.Description;
             dto.Phone = entity.Phone;
             dto.AddressId = entity.AddressId;
+            dto.BannerFileId = entity.BannerFileId;
+            dto.LogoFileId = entity.LogoFileId;
 
-            if(details.HasFlag(CompanyIncludeDetails.Address) || details.HasFlag(CompanyIncludeDetails.All))
+            var includeAll = details.HasFlag(CompanyIncludeDetails.All);
+            if (includeAll || details.HasFlag(CompanyIncludeDetails.Address))
             {
                 dto.Address = await _addressService.GetById(entity.AddressId);
+            }
+
+            if (includeAll || details.HasFlag(CompanyIncludeDetails.File))
+            {
+                if(dto.BannerFileId.HasValue)
+                    dto.BannerFile = await _fileService.GetById(entity.BannerFileId.Value);
+
+                if (dto.LogoFileId.HasValue)
+                    dto.LogoFile = await _fileService.GetById(entity.LogoFileId.Value);
             }
 
             return dto;

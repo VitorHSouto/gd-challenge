@@ -2,5 +2,6 @@
 {
     public class ProductFilterDTO
     {
+        public ProductIncludeDetails includeDetails { get; set; }
     }
 }

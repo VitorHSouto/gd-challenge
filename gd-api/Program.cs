@@ -86,6 +86,9 @@ namespace gd_api
         //TODO: Remover declaração de serviços
         private static void AddServices(WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<FileService>();
+            builder.Services.AddScoped<FileRepository>();
+
             builder.Services.AddScoped<AddressService>();
             builder.Services.AddScoped<AddressRepository>();
 

@@ -9,6 +9,7 @@ namespace gd_api.Domain.Settings
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
+        public DbSet<FileEntity> file { get; set; }
         public DbSet<UserEntity> user { get; set; }
         public DbSet<AddressEntity> address { get; set; }
         public DbSet<CompanyEntity> company { get; set; }

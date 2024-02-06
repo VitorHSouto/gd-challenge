@@ -15,5 +15,8 @@ namespace gd_api.Domain.Entities
 
         [Column("companyid")]
         public Guid CompanyId { get; set; }
+
+        [Column("fileids")]
+        public Guid[] FileIds { get; set; }
     }
 }

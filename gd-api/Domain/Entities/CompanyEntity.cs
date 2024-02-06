@@ -15,5 +15,11 @@ namespace gd_api.Domain.Entities
 
         [Column("addressid")]
         public Guid AddressId { get; set; }
+
+        [Column("bannerfileid")]
+        public Guid? BannerFileId { get; set; }
+
+        [Column("logofileid")]
+        public Guid? LogoFileId { get; set; }
     }
 }
