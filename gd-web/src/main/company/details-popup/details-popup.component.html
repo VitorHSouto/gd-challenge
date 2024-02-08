@@ -1,0 +1,29 @@
+<div class="flex">
+    <div class="rounded-lg p-6 overflow-hidden">
+        <img class="object-cover h-full sm:w-80 rounded-lg" 
+            [src]="data.files![0].publicUrl">
+    </div>
+    
+    <div class="flex flex-col p-6 w-full">
+        <div class="ml-auto">
+            <button mat-icon-button (click)="close()">
+                <mat-icon class="text-primary-500">close</mat-icon>
+            </button>
+        </div>
+
+        <h2 class="text-xl text-gray-800 font-bold mb-4">{{ data.name }}</h2>
+        <p class="text-gray-600">{{ data.description }}</p>
+        <p class="text-sm text-gray-600 mb-4 font-medium">Serve 2 pessoas</p>
+        <p class="text-primary-600 font-medium">{{ data.price | currency : 'BRL' }}</p>
+
+        <div class="flex flex-col gap-2 my-6">
+            <label class="text-gray-800 font-semibold">Algum comentário</label>
+            <textarea rows="4" class="w-full rounded border focus:outline-none p-4 resize-none" placeholder="Ex: Tirar a cebola, maionese à parte etc"></textarea>
+        </div>
+
+        <div class="mt-auto ml-auto">
+            <h-button text="Adicionar" (onClick)="close()"></h-button>
+        </div>
+    </div>
+</div>
+  
