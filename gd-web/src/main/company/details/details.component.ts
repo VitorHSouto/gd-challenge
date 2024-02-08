@@ -17,6 +17,8 @@ export class CompanyDetailsComponent {
 
   company: Company;
   allProducts: Product[] = [];
+  drawerIsOpen: boolean = false;
+
   private readonly _destroySubject = new Subject<boolean>();
 
   ngOnInit(): void {
@@ -26,6 +28,11 @@ export class CompanyDetailsComponent {
   ngOnDestroy(): void {
     this._destroySubject.next(true);
     this._destroySubject.unsubscribe();
+  }
+
+  toggleDrawer(){
+    this.drawerIsOpen = !this.drawerIsOpen;
+    this._changeDetectorRef.markForCheck();
   }
 
   private subscribeToRouteChanges(): void{

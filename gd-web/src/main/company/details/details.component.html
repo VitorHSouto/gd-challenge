@@ -1,58 +1,99 @@
-<div *ngIf="company"
-    class="border-b">
-    <img class="w-full h-56 object-cover" 
-        [src]="company.bannerFile?.publicUrl">
-
-    <div class="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-12 md:px-24 bg-white shadow-sm">
-        <div class="flex items-center justify-center">
-            <div class="-mt-16 p-1 bg-white border rounded-full">
-                <div class="rounded-full h-28 w-28 bg-cover bg-center bg-no-repeat object-cover" 
-                    [defaultImage]="'/assets/images/image-placeholder.png'" 
-                    [lazyLoad]="company.logoFile?.publicUrl!"></div>
+<div>
+    <mat-drawer 
+        (backdropClick)="toggleDrawer()"
+        [opened]="drawerIsOpen" 
+        style="z-index: 99;" 
+        mode="side" 
+        position="end">
+        <div class="h-full sm:min-w-96">
+            <div class="flex justify-between px-6 py-3 border-b">
+                <h2 class="text-xl font-bold mb-2">Detalhes</h2>
+                <button mat-icon-button (click)="toggleDrawer()">
+                    <mat-icon class="text-primary-500">close</mat-icon>
+                </button>
             </div>
-    
-            <div class="p-2 sm:p-6">
+
+            <div class="p-6">
                 <div class="flex items-center gap-2">
-                    <h2 class="text-xl text-gray-800 font-bold">{{ company.name }}</h2>
+                    <h2 class="text-lg text-gray-800 font-semibold">{{ company.name }}</h2>
                     <mat-icon class="text-primary-600">verified</mat-icon>
                 </div>
                 <p class="text-gray-600">{{ company.description }}</p>
+
+                <h2 class="text-lg text-gray-800 font-semibold mt-6">Endereço</h2>
+                <p class="text-gray-600">{{ company.address?.street }} - {{ company.address?.number }}</p>
+                <p class="text-gray-600">{{ company.address?.city }}</p>
+                <p class="text-gray-600">CEP: {{ company.address?.zipCode }}</p>
             </div>
         </div>
+    </mat-drawer>
+      
+    <mat-drawer-container>
+        <mat-drawer-content>
+            <div *ngIf="company"
+                class="border-b">
+                <img class="w-full h-56 object-cover" 
+                    [src]="company.bannerFile?.publicUrl">
 
-        <div class="flex items-center justify-end gap-1 ml-auto m-4 sm:mb-0">
-            <mat-icon class="text-gray-500">paid</mat-icon>
-            <p class="text-gray-500 text-sm">Pedido mínimo: {{18 | currency: 'BRL'}}</p>
-        </div>
-    </div>
-</div>
+                <div class="flex flex-col sm:flex-row justify-between items-center px-6 sm:px-12 md:px-16 bg-white shadow-sm">
+                    <div class="flex items-center justify-center">
+                        <div class="-mt-16 p-1 bg-white border rounded-full">
+                            <div class="rounded-full h-28 w-28 bg-cover bg-center bg-no-repeat object-cover" 
+                                [defaultImage]="'/assets/images/image-placeholder.png'" 
+                                [lazyLoad]="company.logoFile?.publicUrl!"></div>
+                        </div>
+                
+                        <div class="p-2 sm:p-6">
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-xl text-gray-800 font-bold">{{ company.name }}</h2>
+                                <mat-icon class="text-primary-600">verified</mat-icon>
+                            </div>
+                            <p class="text-gray-600">{{ company.description }}</p>
+                        </div>
+                    </div>
 
-<div *ngIf="allProducts.length > 0; else empyt_list">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-16 py-8">
-        <ng-container  *ngFor="let product of allProducts">
-            <div class="flex flex-col md:flex-row bg-white border rounded-lg shadow-sm overflow-hidden cursor-pointer hover:bg-gray-50">
-                <ng-container *ngIf="product.files?.length">
-                    <div class="min-h-32 h-full object-cover bg-cover bg-center bg-no-repeat" 
-                        [style.minWidth]="'33%'"
-                        [defaultImage]="'/assets/images/image-placeholder.png'" 
-                        [lazyLoad]="product.files![0].publicUrl!"></div>
-                </ng-container>
-    
-                <div class="flex flex-col justify-between p-6 h-full">
-                    <h2 class="text-xl text-gray-800 font-bold">{{ product.name }}</h2>
-                    <p class="text-gray-600">{{ product.description }}</p>
-
-                    <div class="ml-auto mt-2">
-                        <p class="text-primary-600 font-medium">{{ product.price | currency : 'BRL'}}</p>
+                    <div class="flex items-center justify-end ml-auto m-4 sm:mb-0">
+                        <span (click)="toggleDrawer()" 
+                            class="text-primary-500 cursor-pointer hover:opacity-90 hover:underline font-semibold pr-3 mr-3 border-r">
+                            Ver mais
+                        </span>
+                        <div class="flex items-center gap-1">
+                            <mat-icon class="text-gray-500">paid</mat-icon>
+                            <p class="text-gray-500 text-sm">Pedido mínimo: {{18 | currency: 'BRL'}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </ng-container>
-    </div>
-</div>
 
-<ng-template #empyt_list>
-    <div class="p-8">
-        <h2 class="text-xl text-center text-gray-800 font-bold mb-2">Nenhuma loja encontrada</h2>
-    </div>
-</ng-template>    
+            <div *ngIf="allProducts.length > 0; else empyt_list">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-16 py-8">
+                    <ng-container  *ngFor="let product of allProducts">
+                        <div class="flex flex-col md:flex-row bg-white border rounded-lg shadow-sm overflow-hidden cursor-pointer hover:bg-gray-50">
+                            <ng-container *ngIf="product.files?.length">
+                                <div class="min-h-32 h-full object-cover bg-cover bg-center bg-no-repeat" 
+                                    [style.minWidth]="'33%'"
+                                    [defaultImage]="'/assets/images/image-placeholder.png'" 
+                                    [lazyLoad]="product.files![0].publicUrl!"></div>
+                            </ng-container>
+                
+                            <div class="flex flex-col justify-between p-6 h-full">
+                                <h2 class="text-xl text-gray-800 font-bold">{{ product.name }}</h2>
+                                <p class="text-gray-600">{{ product.description }}</p>
+
+                                <div class="ml-auto mt-2">
+                                    <p class="text-primary-600 font-medium">{{ product.price | currency : 'BRL'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+            <ng-template #empyt_list>
+                <div class="p-8">
+                    <h2 class="text-xl text-center text-gray-800 font-bold mb-2">Nenhuma loja encontrada</h2>
+                </div>
+            </ng-template>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>
