@@ -11,21 +11,29 @@ namespace gd_api.Domain.Repositories
 
         public async Task<List<CompanyEntity>> Filter(string searchText)
         {
-            var sql = "SELECT DISTINCT c.* FROM company c ";
-
-            if (!string.IsNullOrEmpty(searchText))
+            try
             {
-                var searchableText = $"LOWER('%{searchText}%')";
-                sql += @$"LEFT JOIN product p ON c.id = p.companyid
-                    WHERE
-		                LOWER(c.name) LIKE {searchableText} OR
-		                LOWER(p.name) LIKE {searchableText} OR
-		                LOWER(p.description) LIKE {searchableText} ";
-            }
+                var sql = "SELECT DISTINCT c.* FROM company c ";
 
-            sql += "ORDER BY c.name DESC";
-	            
-            return await QueryAsync(sql, new { searchText });
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    var searchableText = $"UNACCENT('%{searchText}%')";
+
+                    sql += @$"LEFT JOIN product p ON c.id = p.companyid
+                    WHERE
+                        UNACCENT(c.name) ILIKE {searchableText} OR
+                        UNACCENT(p.name) ILIKE {searchableText} OR
+                        UNACCENT(p.description) ILIKE {searchableText} ";
+                }
+
+                sql += "ORDER BY c.name DESC";
+
+                return await QueryAsync(sql, new { searchText });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("dsds");
+            }
         }
     }
 }
