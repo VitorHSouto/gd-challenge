@@ -1,23 +1,25 @@
-<div class="flex items-center justify-between px-8 py-4 border-b sticky top-0 z-10 bg-default-50">
+<div class="flex items-center justify-between px-2 sm:px-8 py-4 border-b sticky top-0 z-10 bg-default-50">
 
-    <div class="flex items-center gap-8 w-1/2">
+    <div class="flex items-center gap-4 sm:gap-8 w-full sm:w-1/2 mr-4">
         <div class="flex items-center cursor-pointer" (click)="goToDefaultRoute()">
             <img src="/assets/images/logo.jpg" alt="Logo" class="w-28">
         </div>
     
-        <div class="flex items-center rounded-full bg-gray-100 px-4 w-full border">
-            <mat-icon class="w-2 h-2 text-red-500">search</mat-icon>
-            
-            <input #searchInput
-                class="bg-gray-100 py-2 px-4 focus:outline-none w-full"
-                (input)="onInputChange($event)"
-                type="text" 
-                placeholder="Busque por item ou loja">
+        <ng-container *ngIf="isToShowFilter">
+            <div class="flex items-center rounded-full bg-gray-100 px-4 w-full border">
+                <mat-icon class="w-2 h-2 text-red-500">search</mat-icon>
+                
+                <input #searchInput
+                    class="bg-gray-100 py-2 px-4 focus:outline-none w-full"
+                    (input)="onInputChange($event)"
+                    type="text" 
+                    placeholder="Busque por item ou loja">
 
-            <ng-container *ngIf="searchInput.value">
-                <mat-icon (click)="clearFilter(searchInput)" class="cursor-pointer text-gray-500 hover:text-gray-400">cancel</mat-icon>
-            </ng-container>
-        </div>
+                <ng-container *ngIf="searchInput.value">
+                    <mat-icon (click)="clearFilter(searchInput)" class="cursor-pointer text-gray-500 hover:text-gray-400">cancel</mat-icon>
+                </ng-container>
+            </div>
+        </ng-container>
     </div> 
 
     <button mat-icon-button (click)="logout()">

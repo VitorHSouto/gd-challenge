@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject, debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Subject, debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs';
 import { CompanyService } from 'src/services/company/company.service';
 import { ContextService } from 'src/services/context/context';
 
@@ -12,13 +12,14 @@ import { ContextService } from 'src/services/context/context';
 export class CompanyComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
-  isBusy: boolean = false;
+  isToShowFilter: boolean = false;
 
   constructor(
     private readonly _changeDetectorRef: ChangeDetectorRef,
+    private readonly _activatedRoute: ActivatedRoute,
     private readonly _router: Router,
     private readonly _contextService: ContextService,
-    private readonly _companyService: CompanyService
+    private readonly _companyService: CompanyService,
   ) {}
 
   private readonly _searchText = new Subject<string>();
@@ -26,6 +27,8 @@ export class CompanyComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscribeToTextChange();
+    this.subscribeToRouteChanges();
+    this.refreshFilterVisibility();
   }
 
   ngOnDestroy(): void {
@@ -60,5 +63,21 @@ export class CompanyComponent implements OnInit, OnDestroy {
         switchMap(searchText => this._companyService.list(searchText))
       )
       .subscribe();
+  }
+
+  private subscribeToRouteChanges(): void{
+    this._router.events
+      .pipe(
+        takeUntil(this._destroySubject),
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe((_) => this.refreshFilterVisibility()
+    );
+  }
+
+  private refreshFilterVisibility(): void{
+    const companyId = this._activatedRoute.firstChild?.snapshot.paramMap.get('id');
+    this.isToShowFilter = companyId == null;
+    this._changeDetectorRef.markForCheck();
   }
 }
