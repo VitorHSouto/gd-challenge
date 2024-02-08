@@ -30,7 +30,7 @@ namespace gd_api
             builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseNpgsql(connection));
 
             ConfigureJWTAuthentication(builder);
-            var serviceProvider = CreateServices();
+            var serviceProvider = CreateServices(builder);
             using (var scope = serviceProvider.CreateScope())
             {
                 UpdateDatabase(scope.ServiceProvider);
@@ -65,13 +65,14 @@ namespace gd_api
             app.MapControllers();
             app.Run();
         }
-        private static IServiceProvider CreateServices()
+        private static IServiceProvider CreateServices(WebApplicationBuilder builder)
         {
+            var connections = builder.Configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
             return new ServiceCollection()
                 .AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddPostgres()
-                    .WithGlobalConnectionString("Server=localhost;Port=5432;Database=gd-api;User Id=postgres;Password=123456;")
+                    .WithGlobalConnectionString(connections?.DataBase)
                     .ScanIn(typeof(Program).Assembly).For.Migrations())
                 .AddLogging(lb => lb.AddFluentMigratorConsole())
                 .BuildServiceProvider(false);
