@@ -6,6 +6,7 @@ namespace gd_api.Domain.Entities
     {
         [Column("name")]
         public string Name { get; set; }
+
         [Column("email")]
         public string Email { get; set; }
 
